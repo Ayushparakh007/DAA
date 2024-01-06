@@ -1,0 +1,40 @@
+#include <iostream>
+#include <cmath>
+#include <string>
+// #include <bits/stdrlc++.h>
+using namespace std;
+int karat(int a,int b){
+    string al = to_string(a);
+    string bl =to_string(b);
+    int alen = al.length();
+    int blen = bl.length();
+    
+    if(alen==1 && blen==1){
+        return a*b;
+    }
+    else{
+        int n = alen>blen?alen:blen;
+        int m =ceil(n/2.0);
+        while(alen!=n){
+            al = "0"+al;
+            alen++;
+            
+        }
+        while(blen!=n){
+            bl = "0" + bl;
+            blen++;
+        }
+int aL=stoi(al.substr(0,n/2));
+int aR=stoi(al.substr(n/2));
+int bL=stoi(bl.substr(0,n/2));
+int bR=stoi(bl.substr(n/2));
+int x1=karat(aL,bL);
+int x2=karat(aL+aR,bL+bR);
+int x3=karat(aR,bR);
+   return x1*pow(10,2*m)+(x2-x1-x3)*pow(10,m) +x3;
+}
+}
+int main(){
+    cout<<karat(1578,1724);
+    return 0;
+}
