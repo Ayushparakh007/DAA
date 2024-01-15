@@ -1,0 +1,42 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+int crossum(int a[],int l,int mid, int h){
+    int left=-99999;
+    int right=-99999;
+    int s=0;
+    for(int i=mid;i>=l;i--){
+        s+=a[i];
+        if(s>left)
+        left=s;
+    }
+    s=0;
+    for(int i=mid+1;i<=h;i++){
+        s+=a[i];
+        if(s>right){
+            right=s;
+        }
+    }
+    return(left+right);
+}
+int maxsum(int a[],int l,int h){
+    if(l==h){
+        return a[l];
+    }
+    else{
+        int mid=(l+h)/2;
+        int ls=maxsum(a,l,mid);
+        int rs=maxsum(a,mid+1,h);
+        int cs=crossum(a,l,mid,h);
+        int temp=ls>rs?ls:rs;
+        return (temp>cs?temp:cs);
+    }
+}
+
+int main() {
+    // Write C++ code here
+    int a[]={-2,-5,6,-2,-3,1,5,-6};
+    cout<<maxsum(a,0,7);
+
+    return 0;
+}
