@@ -1,0 +1,32 @@
+bag with limited capacity 'cap' and list of items with their weights 'w' & values 'v'
+obj:-To maximize the total value of the knapsack by selecting items such that they don't exceed the capacity of the boxes
+#include <iostream>
+using namespace std;
+
+double find(int ind, int cap, int w[], double v[]) {
+    if (ind < 0) {
+        if (w[0] <= cap)
+            return v[0];
+        else
+            return 0;
+    } else {
+        double amt_not_inc = find(ind - 1, cap, w, v);
+        double amt_inc = 0;
+
+        if (w[ind] <= cap) {
+            amt_inc = v[ind] + find(ind - 1, cap - w[ind], w, v);
+        }
+
+        return max(amt_not_inc, amt_inc);
+    }
+}
+
+int main() {
+    int w[] = {3, 2, 2};
+    double v[] = {1.8, 1, 1};
+    int n = 3, cap = 4;
+
+    cout << find(n - 1, cap, w, v);
+
+    return 0;
+}
