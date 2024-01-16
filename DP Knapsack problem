@@ -1,0 +1,46 @@
+The provided C++ code appears to implement a solution to the 0/1 Knapsack problem using dynamic programming. The problem is defined as follows: Given a set of items, each with a weight w[i] and a value v[i], determine the maximum value that can be obtained by selecting a subset of items such that the sum of their weights does not exceed a given capacity cap.
+#include <iostream>
+#include <climits>
+using namespace std;
+
+const int n = 3;
+const int cap = 4;
+int dp[4][5];
+
+int w[] = {3, 2, 2};
+double v[] = {-1.8, 1, 1};  // Corrected the type to double
+
+double find(int ind, int cap) {
+    if (ind == 0) {
+        if (w[ind] <= cap) {
+            dp[ind][cap] = v[ind];
+        } else {
+            dp[ind][cap] = 0;
+        }
+    } else {
+        if (dp[ind][cap] != -1) {
+            return dp[ind][cap];
+        }
+        double not_inc = find(ind - 1, cap);
+        double inc_c = INT_MIN;  // Changed -9999 to INT_MIN
+        if (w[ind] <= cap) {
+            inc_c = v[ind] + find(ind - 1, cap - w[ind]);
+        }
+        dp[ind][cap] = max(not_inc, inc_c);
+    }
+    return dp[ind][cap];
+}
+
+int main() {
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= cap; j++) {
+            dp[i][j] = -1;
+        }
+    }
+
+    double result = find(n - 1, cap);
+
+    cout << result << endl;
+
+    return 0;
+}
