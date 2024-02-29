@@ -1,0 +1,50 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int a[] = {10, 20, 50, 60, 80};
+int n = 5, target = 80;
+bool found = false;
+stack<int> orig, temp;
+
+void print()
+{
+    while (!orig.empty())
+    {
+        temp.push(orig.top());
+        orig.pop();
+    }
+    while (!temp.empty())
+    {
+        cout << temp.top() << ",";
+        orig.push(temp.top());
+        temp.pop();
+    }
+    cout << "\n";
+}
+
+void solve(int currsum, int index)
+{
+    if (currsum > target)
+        return;
+    if (currsum == target)
+    {
+        print();
+        found = true;
+        return;
+    }
+    for (int i = index; i < n; i++)
+    {
+        orig.push(a[i]);
+        solve(currsum + a[i], i + 1);
+        orig.pop();
+    }
+}
+
+int main()
+{
+    solve(0, 0);
+    if (!found)
+        cout << "no solution";
+    return 0;
+}
