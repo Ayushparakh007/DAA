@@ -1,0 +1,83 @@
+import java.util.Scanner;
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
+}
+
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode tail = dummyHead;
+        int carry = 0;
+
+        while (l1 != null || l2 != null || carry != 0) {
+            int digit1 = (l1 != null) ? l1.val : 0;
+            int digit2 = (l2 != null) ? l2.val : 0;
+
+            int sum = digit1 + digit2 + carry;
+            int digit = sum % 10;
+            carry = sum / 10;
+
+            ListNode newNode = new ListNode(digit);
+            tail.next = newNode;
+            tail = tail.next;
+
+            l1 = (l1 != null) ? l1.next : null;
+            l2 = (l2 != null) ? l2.next : null;
+        }
+
+        return dummyHead.next;
+    }
+}
+
+public class Main {
+    public static ListNode createLinkedList(int[] nums) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode current = dummyHead;
+        for (int num : nums) {
+            current.next = new ListNode(num);
+            current = current.next;
+        }
+        return dummyHead.next;
+    }
+
+    public static void printLinkedList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val);
+            if (current.next != null) {
+                System.out.print(" -> ");
+            }
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the numbers for the first list, separated by spaces:");
+        String[] l1Strings = scanner.nextLine().split(" ");
+        int[] l1Nums = new int[l1Strings.length];
+        for (int i = 0; i < l1Strings.length; i++) {
+            l1Nums[i] = Integer.parseInt(l1Strings[i]);
+        }
+        ListNode l1 = createLinkedList(l1Nums);
+
+        System.out.println("Enter the numbers for the second list, separated by spaces:");
+        String[] l2Strings = scanner.nextLine().split(" ");
+        int[] l2Nums = new int[l2Strings.length];
+        for (int i = 0; i < l2Strings.length; i++) {
+            l2Nums[i] = Integer.parseInt(l2Strings[i]);
+        }
+        ListNode l2 = createLinkedList(l2Nums);
+
+        Solution solution = new Solution();
+        ListNode result = solution.addTwoNumbers(l1, l2);
+
+        System.out.println("The result is:");
+        printLinkedList(result);
+    }
+}
